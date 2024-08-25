@@ -36,6 +36,27 @@ class Block {
 
 // The blockchain
 class Chain {
+    public static instance = new Chain(); // To ensure only 1 chain is created
+
+    private chain: Block[];
+    private genesisHash: string;
+    private nextTrans: Transaction;
+
+    constructor() {
+        this.genesisHash = null as any; // No previous hash for genesis block, therefore null
+        this.nextTrans = new Transaction(100, 'genesis', 'shameer'); // Our first transaction (creating money out of thin air)
+        
+        this.chain = [new Block(this.genesisHash, this.nextTrans)]; // Genesis block
+    }
+
+    get verylastBlock() {
+        return this.chain[ this.chain.length -1 ];
+    }
+
+    addBlock() {
+
+    }
+
 
 }
 
