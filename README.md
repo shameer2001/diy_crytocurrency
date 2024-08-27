@@ -1,5 +1,13 @@
-# Understanding How Cryptocurrency Works
+## How To Run:
 
+Modify the end of `crypto.ts` to add/remove transactions and/or wallets.
+
+In the terminal, run:
+```
+npm run start
+```
+
+# Understanding How Cryptocurrency Works
 
 ## How Does a Blockchain Work?
 From a financial perspective, the blockchain is like a shared public ledger containing all transactions from all cryptocurrency users. This ledger is distributed and synchronised across the globe, eliminating the need for a central authority to maintain and validate it.
