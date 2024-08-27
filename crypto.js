@@ -70,7 +70,26 @@ class Chain {
         // Create new block if verified
         if (isValid) {
             const newBlock = new Block(this.verylastBlock.hash, transaction);
+            this.mine(); // Mine before validation for proof of work 
             this.chain.push(newBlock); // Add block to `chain` array
+        }
+    }
+    // Create a `mine` method to implement the 'proof of work'/'mining' concept
+    mine() {
+        console.log('mining...'); // This is the way to print in JS lol
+        let nonce = Math.round(Math.random() * 999999999); // A one-time-use random number
+        // Computationally-expensive cryptographic puzzle
+        // The puzzle: find a number, when added to the nonce, will produce a hash that starts with 0000
+        let solution = 1; // We have to brute-force it, therfore start from 1
+        while (true) {
+            const hash = crypto.createHash('MD5'); // MD5 instead of SHA256 bc its faster to compute 
+            hash.update((nonce + solution).toString()).end(); // Add number/solution to nonce and make hash
+            const attempt = hash.digest('hex'); // Make hash a hexadecimal version
+            if (attempt.substr(0, 4) === '0000') {
+                console.log(`Solved: ${solution}`);
+                return solution;
+            }
+            solution += 1; // Try the next integer on the number line lol
         }
     }
 }
@@ -97,3 +116,11 @@ class Wallet {
         Chain.instance.addBlock(transaction, this.publicKey, signature); // The SENDER's public key is to verify the signature, the reciever etc (ie the transaction)
     }
 }
+// EXAMPLE USAGE
+const shameer = new Wallet();
+const bob = new Wallet();
+const alice = new Wallet();
+shameer.sendMoney(50, bob.publicKey); // Shameer sends money to Bob
+bob.sendMoney(23, alice.publicKey); // Bob sends money to Alice
+alice.sendMoney(5, bob.publicKey); // Alice sends money to Bob
+console.log(Chain.instance);
